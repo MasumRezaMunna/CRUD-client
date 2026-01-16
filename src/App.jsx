@@ -1,4 +1,5 @@
 import './App.css'
+import Users from './components/Users'
 
 function App() {
 
@@ -6,6 +7,7 @@ function App() {
     <>
       
       <h1>Simple Crud Client Side</h1>
+      <Users></Users>
       
     </>
   )
