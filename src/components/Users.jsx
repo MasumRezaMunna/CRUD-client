@@ -1,10 +1,8 @@
 import React, { use, useState } from "react";
-import { data } from "react-router";
 
-const Users = ({usersPromise}) => {
-
-    const initialUsers = use(usersPromise);
-    const [users, setUsers] = useState(initialUsers)
+const Users = ({ usersPromise }) => {
+  const initialUsers = use(usersPromise);
+  const [users, setUsers] = useState(initialUsers);
 
   const handleAddUser = (e) => {
     e.preventDefault();
@@ -25,15 +23,16 @@ const Users = ({usersPromise}) => {
       .then((res) => res.json())
       .then((data) => {
         console.log("after saving user", data);
+        if (data.insertedId) {
+          newUser._id = data.insertedId;
+          const newUsers = [...users, newUser];
+          setUsers(newUsers);
+          alert("users added successfully");
+          e.target.reset();
+        }
       });
-    if (data.insertedId) {
-        newUser._id = data.insertedId
-        const newUsers = [...users, newUser];
-        setUsers(newUsers);
-      alert("users added successfully");
-      e.target.reset();
-    }
   };
+
   return (
     <div>
       <form onSubmit={handleAddUser} action="">
@@ -45,12 +44,12 @@ const Users = ({usersPromise}) => {
       </form>
       <p>-----------------</p>
       <div>
-        {
-            users.map(user => <p key={user._id}>
-                {user.name} : {user.email}
-                <button>X</button>
-                </p>)
-        }
+        {users.map((user) => (
+          <p key={user._id}>
+            {user.name} : {user.email}
+            <button>X</button>
+          </p>
+        ))}
       </div>
     </div>
   );
