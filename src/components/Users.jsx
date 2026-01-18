@@ -1,4 +1,5 @@
 import React, { use, useState } from "react";
+import { Link } from "react-router";
 
 const Users = ({ usersPromise }) => {
   const initialUsers = use(usersPromise);
@@ -27,7 +28,7 @@ const Users = ({ usersPromise }) => {
           newUser._id = data.insertedId;
           const newUsers = [...users, newUser];
           setUsers(newUsers);
-          alert("users added successfully");
+          // alert("users added successfully");
           e.target.reset();
         }
       });
@@ -42,7 +43,9 @@ const Users = ({ usersPromise }) => {
     .then(data =>{
       console.log('after delete', data);
       if(data.deletedCount){
-        alert('deleted successfully');
+        // alert('deleted successfully');
+        const remaining = users.filter(user => user._id !== id);
+        setUsers(remaining);
       }
     })
   }
@@ -62,6 +65,7 @@ const Users = ({ usersPromise }) => {
         {users.map((user) => (
           <p key={user._id}>
             {user.name} : {user.email}
+            <Link to={`/users/${user._id}`}>details</Link>
             <button onClick={ () => handleDeleteUser(user._id)}>X</button>
           </p>
         ))}
